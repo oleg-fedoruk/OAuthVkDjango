@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load trans from i18n %}
+{% block title %}Home{% endblock %}
+{% block content %}
+{% if user.is_authenticated %} Привет, {{ user.first_name }}!
+    <div>Твой список друзей:</div>
+    <ul>
+    {% for friend in friends_list %}
+        <li>{{ friend }}</li>
+    {% endfor %}
+    </ul>
+    <p>
+        <a href="{% url 'logout' %}">logout</a>
+    </p>
+{% else %}
+<p>You are not logged in</p>
+<a href="{% url 'login' %}">login</a> |
+<a href="{% url 'signup' %}">signup</a> |
+<a href="/login/vk-oauth2">
+    <img src="/static/lvk.png" style="width: 30px;" data-toggle="tooltip" title="{% trans 'Login via VKontakte' %}">
+</a>
+{% endif %}
+{% endblock %}
