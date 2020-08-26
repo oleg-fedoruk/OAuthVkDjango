@@ -1,12 +1,7 @@
-from django.views.generic import TemplateView
 from django.shortcuts import render
 from vk_auth.settings import SOCIAL_AUTH_VK_OAUTH2_KEY, SOCIAL_AUTH_VK_OAUTH2_SECRET
 import vk_api
 from social_django.models import UserSocialAuth
-
-
-class HomePageView(TemplateView):
-    template_name = 'home.html'
 
 
 def index(request):
@@ -17,14 +12,11 @@ def index(request):
         vk_session.server_auth()
         vk_session.token = {'access_token': profile.extra_data['access_token'], 'expires_in': 0}
         vk = vk_session.get_api()
-        friends = vk.friends.get(count=[5], fields=['nickname', 'bdate', 'city'])
+        friends = vk.friends.get(count=[5], fields=['nickname'])
         friends_list = []
         for friend in friends['items']:
             name = friend['first_name'] + ' ' + friend['last_name']
-            age = friend['bdate']
-            city = friend['city']['title']
-            str_data = (f'{name}. Дата рождения {age}. Город проживания - {city}')
-            friends_list.append(str_data)
+            friends_list.append(name)
         context = {'friends_list': friends_list}
     except:
         friends_list = ['У тебя нет друзей :(']
