@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+try:
+    from vk_auth import secret_keys
+except ImportError:
+    exit('DO cp secret_keys.py.default secret_keys.py and set keys')
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '_b=y*!(dwspwv^ui4u%etqr38#u1lvz!xd!jw7bm@$=kc^q96z'
+SECRET_KEY = secret_keys.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -135,8 +140,8 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-SOCIAL_AUTH_VK_OAUTH2_KEY = '7572269'
-SOCIAL_AUTH_VK_OAUTH2_SECRET = 'aQJKKB4D0VHVoILTJs5W'
+SOCIAL_AUTH_VK_OAUTH2_KEY = secret_keys.SOCIAL_AUTH_VK_OAUTH2_KEY
+SOCIAL_AUTH_VK_OAUTH2_SECRET = secret_keys.SOCIAL_AUTH_VK_OAUTH2_SECRET
 
 SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 
